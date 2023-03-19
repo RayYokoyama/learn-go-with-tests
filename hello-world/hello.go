@@ -7,18 +7,23 @@ import (
 const (
 	englishHelloPrefix  = "Hello, "
 	japaneseHelloPrefix = "こんにちは、"
+	frenchHelloPrefix   = "Bonjour, "
 )
 
-func Hello(name, language string) string {
+func Hello(name string, language string) string {
 	if name == "" {
 		name = "World"
 	}
 
-	if language == "Japanese" {
-		return japaneseHelloPrefix + name
+	prefix := englishHelloPrefix
+	switch language {
+	case "French":
+		prefix = frenchHelloPrefix
+	case "Japanese":
+		prefix = japaneseHelloPrefix
 	}
 
-	return englishHelloPrefix + name
+	return prefix + name
 }
 
 func main() {
