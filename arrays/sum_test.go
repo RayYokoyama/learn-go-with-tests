@@ -1,14 +1,9 @@
 package main
 
 import (
+	"reflect"
 	"testing"
 )
-
-func assertSum(t *testing.T, want int, got int, given []int) {
-	if got != want {
-		t.Errorf("got %d but want %d given %v", got, want, given)
-	}
-}
 
 func TestSum(t *testing.T) {
 	t.Run("collection of any size", func(t *testing.T) {
@@ -16,6 +11,29 @@ func TestSum(t *testing.T) {
 
 		got := Sum(numbers)
 		want := 6
-		assertSum(t, want, got, numbers)
+		if got != want {
+			t.Errorf("got %d but want %d given %v", got, want, numbers)
+		}
+	})
+}
+
+func TestSumAllTails(t *testing.T) {
+	checkSums := func(t *testing.T, got, want []int) {
+		t.Helper()
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("got %d but want %d", got, want)
+		}
+	}
+
+	t.Run("make the sums of some slices", func(t *testing.T) {
+		got := SumAllTails([]int{1, 2, 3}, []int{0, 9, 1})
+		want := []int{5, 10}
+		checkSums(t, got, want)
+	})
+
+	t.Run("safely sum empty slices", func(t *testing.T) {
+		got := SumAllTails([]int{}, []int{3, 4, 5})
+		want := []int{0, 9}
+		checkSums(t, got, want)
 	})
 }
